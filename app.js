@@ -95,6 +95,17 @@ app.get("/", function(req, res) {
 
 	});
 
+    app.post("/delete", (req, res) => {
+        const itemId = req.body.checkBox;
+
+        ListItem.findByIdAndDelete(itemId, (err, item) => {
+            if (err) console.error(err);
+            else console.log ("deleted: " + item);
+        })
+
+        res.redirect("/");
+    })
+
 	app.get("/work", function(req,res){
 	res.render("list", {listTitle: "Work List", newListItems: workItems});
 	});
