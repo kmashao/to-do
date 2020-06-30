@@ -6,7 +6,7 @@ const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const _ = require("lodash")
 
-mongoose.connect("mongodb://localhost:27017/toDoListDB", {useNewUrlParser: true, useUnifiedTopology:true, useFindAndModify: false });
+
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(express.static("public"));
 var db = mongoose.connection;
 
  db.on('error', console.error.bind(console, "connection error"));
-// db.once('open', () => {
+ db.once('open', () => {
 
 
     const toDoSchema = new mongoose.Schema({
@@ -63,15 +63,11 @@ var db = mongoose.connection;
 
             if (items.length === 0){
 
-                console.log(items);
-                console.log("its empty\n");
-
                 ListItem.insertMany(defaultItems, (err) => {
                     
                     if(err) console.error(err);
                     console.log("default items added\n");
                 });
-                console.log("redirecting\n");
                 res.redirect("/");
             } else
                 res.render("list", {listTitle: "Today", items: items});
@@ -81,26 +77,28 @@ var db = mongoose.connection;
 
     app.get("/:listType", (req, res) => {
 
-        let listType = _.capitalize(req.params.listType);
+        const listType = _.capitalize(req.params.listType);
 
         List.findOne({name: listType}, (err, list) => {
             if(err) console.error(err);
             
-            if(_.isEmpty(list)){
+            if(listType === "Favicon.ico"){
+                res.redirect("/");
+            } else if(_.isEmpty(list)){
+
                 const defaultList = new List({
                     name: listType,
                     listItems: defaultItems
                 });
 
                 defaultList.save();
-                console.log(listType + " added");
                 res.redirect("/" + listType);
             }else {
                 res.render("list", {listTitle: listType, items: list.listItems});
 
             }
         })
-    });
+    })
 
 	app.post("/", function(req, res){
 
@@ -164,4 +162,4 @@ var db = mongoose.connection;
 
 
 // 	db.close();
-// })
+})
