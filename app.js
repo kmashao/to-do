@@ -31,15 +31,15 @@ var db = mongoose.connection;
     const ListItem = mongoose.model("item", toDoSchema);
 
     const item1 = new ListItem({
-        item: "Buy food"
+        item: "Welcome to your todo list"
     });
 
     const item2 = new ListItem({
-        item: "do homework"
+        item: "Click + to add items"
     });
 
     const item3 = new ListItem({
-        item: "eat dinner"
+        item: "<-- delete items"
     });
 
     const defaultItems = [item1, item2, item3]
