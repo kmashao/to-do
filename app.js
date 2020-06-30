@@ -6,7 +6,7 @@ const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const _ = require("lodash")
 
-mongoose.connect("mongodb+srv://admin-kmashao:i'madmin@todolist-tilof.gcp.mongodb.net/toDoListDB", {useNewUrlParser: true, useUnifiedTopology:true, useFindAndModify: false });
+mongoose.connect("mongodb+srv://admin-kmashao:iamadmin@todolist-tilof.gcp.mongodb.net/toDoListDB", {useNewUrlParser: true, useUnifiedTopology:true, useFindAndModify: false });
 
 const app = express();
 
